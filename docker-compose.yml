@@ -1,19 +1,5 @@
 version: '2.3'
 services:
-  mysql:
-    image: mysql:5.7.19
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./mysql/scripts:/docker-entrypoint-initdb.d
-    command: [--ssl=0]
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
-      interval: 10s
-      timeout: 60s
-      retries: 5
   api-manager:
     image: wso2am:2.1.0
     healthcheck:
@@ -27,9 +13,6 @@ services:
       - ./apim/repository/conf/api-manager.xml:/home/wso2carbon/wso2am-2.1.0/repository/conf/api-manager.xml
       - ./apim/repository/conf/carbon.xml:/home/wso2carbon/wso2am-2.1.0/repository/conf/carbon.xml
       - ./apim/repository/conf/tomcat/catalina-server.xml:/home/wso2carbon/wso2am-2.1.0/repository/conf/tomcat/catalina-server.xml
-    depends_on:
-      mysql:
-        condition: service_healthy      
     ports: 
       - "8280:8280"
       - "8243:8243"
