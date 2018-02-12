@@ -25,4 +25,4 @@ services:
       - "7711:7711"
       - "7611:7611"
       - "10397:10397"
-network_mode: "host"
+    network_mode: "host"
