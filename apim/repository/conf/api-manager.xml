@@ -93,7 +93,7 @@
                 <!-- Admin password for the API gateway.-->
                 <Password>${admin.password}</Password>
                 <!-- Endpoint URLs for the APIs hosted in this API gateway.-->
-                <GatewayEndpoint>https://gateway.mywso2.com</GatewayEndpoint>
+                <GatewayEndpoint>https://gateway.mywso2.com:8243</GatewayEndpoint>
             </Environment>
         </Environments>
     </APIGateway>
