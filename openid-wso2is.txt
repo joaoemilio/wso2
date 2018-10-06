@@ -1,0 +1,45 @@
+1) unzip do package wso2is-km-5.5.0
+2) iniciar o servidor a primeira vez para publicar os .war
+3) liberar OpenID Discovery Document
+  conf/identity/identity.xml 
+        <Resource context="(.*)/.well-known(.*)" secured="false" http-method="all"/>
+4) Mudar o para localhost para não trocar pelo IP da máquina (para ambientes de demo em máquina local)
+  conf/identity/identity.xml 
+        <IDTokenIssuerID>https://localhost:9443/oauth2/token</IDTokenIssuerID>
+5) Mudar o OIDCDiscoveryEPUrl para usar o issuer correto 
+  conf/identity/identity.xml 
+       <OIDCDiscoveryEPUrl>https://localhost:9443/oauth2/token</OIDCDiscoveryEPUrl>
+6) Troquei todos os ${carbon.protocol}://${carbon.host}:${carbon.management.port} por https://localhost:9443
+7) Liberar CORS
+  server/webapps/oauth2/WEB-INF/web.xml
+     <filter>
+        <filter-name>CORS</filter-name>
+        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+            <param-name>cors.allowOrigin</param-name>
+            <param-value>*</param-value>
+        </init-param>
+    </filter>
+    
+    
+    <filter-mapping>
+        <filter-name>CORS</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+
+8) Liberar Silent Refresh
+
+  repository/conf/tomcat/carbon/WEB-INF/web.xml
+      <!-- Tomcat http header security filter -->
+    <filter>
+        <filter-name>HttpHeaderSecurityFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+        <init-param>
+            <param-name>hstsEnabled</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>antiClickJackingEnabled</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
